@@ -1,18 +1,21 @@
 package home
 
 import "github.com/somuthink/pics_journal/core/internal/views"
+import "github.com/somuthink/pics_journal/core/internal/models"
+import "github.com/somuthink/pics_journal/core/internal/views/components"
 
-templ Home() {
+templ Home(inputs []models.Input) {
 	<div class="flex flex-col   gap-4" hx-ext="ws" ws-connect="/sock/seek">
-		<div class="flex flex-col gap-1">
-			for i := 0; i <= 10; i ++ {
-				<div class="w-full border-block">aaaaaa</div>
+		<div class="flex flex-col">
+			for _, input := range inputs {
+				@components.Input(input)
 			}
 		</div>
-		<input class="border-block" type="text"/>
+		<input ws-send class="border-block" type="text"/>
+		<div id="llm-result" hx-swap-oob="morphdom"></div>
 	</div>
 }
 
-templ HomeIndex() {
-	@views.Base(Home())
+templ HomeIndex(inputs []models.Input) {
+	@views.Base(Home(inputs))
 }

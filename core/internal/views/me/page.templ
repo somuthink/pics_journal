@@ -1,0 +1,18 @@
+package me
+
+import "github.com/somuthink/pics_journal/core/internal/views"
+import "github.com/somuthink/pics_journal/core/internal/models"
+import "fmt"
+
+templ Me(user models.User) {
+	<div>
+		<div class="flex flex-row">
+			<a>{ user.Name }</a>
+			<img src={ fmt.Sprintf("/static/images/outputs/%s.png", user.PortraitName) }/>
+		</div>
+	</div>
+}
+
+templ MeIndex(user models.User) {
+	@views.Base(Me(user))
+}

@@ -1,0 +1,11 @@
+package components
+
+import "github.com/somuthink/pics_journal/core/internal/models"
+
+templ Input(input models.Input) {
+	<div class="w-full border-block flex-row">
+		<a class="flex-5">{ input.Summary }</a>
+		<div class="flex-1 border-block">{ input.Category }</div>
+		<div class="flex-1 border-block">{ input.Emotion }</div>
+	</div>
+}

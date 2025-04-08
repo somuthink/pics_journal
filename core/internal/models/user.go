@@ -7,6 +7,10 @@ type Input struct {
 
 	Content string
 
+	Summary string
+
+	Emotion string
+
 	Category string
 
 	UserID uint
@@ -19,6 +23,8 @@ type User struct {
 
 	Name     string
 	Password string
+
+	PortraitName string
 
 	Inputs []Input `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
 

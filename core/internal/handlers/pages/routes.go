@@ -13,4 +13,6 @@ func (PageRoutes) SetupRoutes(app fiber.Router) {
 	app.Use(middleware.AuthMiddleware)
 
 	app.Get("/", homePage)
+
+	app.Get("/me", homePage)
 }
