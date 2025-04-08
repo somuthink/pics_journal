@@ -11,6 +11,7 @@ type Config struct {
 	VERSION   string
 	JWT_TOKEN []byte
 	DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME,
+	SESSIONS_HOST, SESSIONS_PORT, SESSIONS_PASSWORD,
 	INFERENCE_HOST,
 	STORAGE_PREFIX string
 	INFERENCE_PORT int
@@ -41,6 +42,10 @@ func Initialize(envPath string) error {
 		DB_HOST:     os.Getenv("DB_HOST"),
 		DB_PORT:     os.Getenv("DB_PORT"),
 		DB_NAME:     os.Getenv("DB_NAME"),
+
+		SESSIONS_HOST:     os.Getenv("SESSIONS_HOST"),
+		SESSIONS_PORT:     os.Getenv("SESSIONS_PORT"),
+		SESSIONS_PASSWORD: os.Getenv("SESSIONS_PASSWORD"),
 
 		INFERENCE_HOST: os.Getenv("INFERENCE_HOST"),
 		INFERENCE_PORT: inference_port,
