@@ -1,0 +1,32 @@
+package views
+
+import "github.com/somuthink/pics_journal/core/internal/config"
+
+templ Base(children ...templ.Component) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta
+				name="description"
+				content="Full stack application using Golang's Fiber framework & Templ templating language with user session management + CRUD to a SQLite database (To Do List) and HTMX in the frontend"
+			/>
+			<meta name="google" content="notranslate"/>
+			<title>Architecta { config.Cfg.VERSION }</title>
+			<link rel="stylesheet" href="static/css/style.css"/>
+			// <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+			<script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
+			<script src="https://unpkg.com/htmx-ext-ws@2.0.2" crossorigin="anonymous"></script>
+			<script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
+			<script src="https://unpkg.com/embla-carousel-wheel-gestures/dist/embla-carousel-wheel-gestures.umd.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/@figmania/loader/build/index.umd.js"></script>
+		</head>
+		<body class="w-[100vv] h-[100vh] bg-[#080808] flex flex-col gap-2 px-[4%] py-4">
+			for _, child :=  range children {
+				@child
+			}
+		</body>
+	</html>
+}
