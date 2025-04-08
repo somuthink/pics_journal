@@ -1,0 +1,18 @@
+package login
+
+import "github.com/somuthink/pics_journal/core/internal/views"
+
+templ Login() {
+	<div class="flex flex-col mt-[10%] mx-[25%] ">
+		<a class="">/вход/регистрация</a>
+		<form class="flex flex-col mt-4" hx-post="/api/auth" hx-swap="none">
+			<input type="text" placeholder="юзеренейм" name="username" class="p-2 border-block flex-[2]" required/>
+			<input type="password" placeholder="пароль" name="password" class="p-2 border-block flex-[2]" required/>
+			<button type="submit" class="p-2 border-block flex-[2]">подтвердить</button>
+		</form>
+	</div>
+}
+
+templ LoginIndex() {
+	@views.Base(Login())
+}

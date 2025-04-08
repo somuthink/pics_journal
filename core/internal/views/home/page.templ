@@ -1,0 +1,18 @@
+package home
+
+import "github.com/somuthink/pics_journal/core/internal/views"
+
+templ Home() {
+	<div class="flex flex-col   gap-4" hx-ext="ws" ws-connect="/sock/seek">
+		<div class="flex flex-col gap-1">
+			for i := 0; i <= 10; i ++ {
+				<div class="w-full border-block">aaaaaa</div>
+			}
+		</div>
+		<input class="border-block" type="text"/>
+	</div>
+}
+
+templ HomeIndex() {
+	@views.Base(Home())
+}
