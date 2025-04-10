@@ -44,7 +44,7 @@ func Base(children ...templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><link rel=\"stylesheet\" href=\"static/css/style.css\"><script src=\"https://unpkg.com/htmx.org@1.9.9\" integrity=\"sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX\" crossorigin=\"anonymous\"></script><script src=\"https://unpkg.com/htmx-ext-ws@2.0.2\" crossorigin=\"anonymous\"></script><script src=\"https://unpkg.com/embla-carousel/embla-carousel.umd.js\"></script><script src=\"https://unpkg.com/embla-carousel-wheel-gestures/dist/embla-carousel-wheel-gestures.umd.js\"></script><script src=\"https://cdn.jsdelivr.net/npm/@figmania/loader/build/index.umd.js\"></script></head><body class=\"w-[100vv] h-[100vh] bg-[#F3EFD7] flex flex-col gap-2 px-[4%] py-4\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><link rel=\"stylesheet\" href=\"static/css/style.css\"><script src=\"https://unpkg.com/htmx.org@1.9.9\" integrity=\"sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX\" crossorigin=\"anonymous\"></script><script src=\"https://unpkg.com/htmx-ext-ws@2.0.2\" crossorigin=\"anonymous\"></script><script src=\"https://unpkg.com/embla-carousel/embla-carousel.umd.js\"></script><script src=\"https://unpkg.com/embla-carousel-wheel-gestures/dist/embla-carousel-wheel-gestures.umd.js\"></script><script src=\"https://cdn.jsdelivr.net/npm/@figmania/loader/build/index.umd.js\"></script></head><body class=\"w-[100vv] h-[100vh] bg-[#F3EFD7] flex flex-col gap-5 px-[4%] py-4 items-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

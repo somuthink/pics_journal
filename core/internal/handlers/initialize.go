@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/somuthink/pics_journal/core/internal/handlers/api"
 	"github.com/somuthink/pics_journal/core/internal/handlers/pages"
+	"github.com/somuthink/pics_journal/core/internal/handlers/socket"
 )
 
 type Router interface {
@@ -16,6 +17,7 @@ func Initialize() {
 	app.Static("/static", "../static")
 
 	routes := []Router{
+		&socket.SocketRoutes{},
 		&api.APIRoutes{},
 		&pages.PageRoutes{},
 	}

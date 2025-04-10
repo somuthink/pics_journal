@@ -1,0 +1,13 @@
+package components
+
+import "github.com/somuthink/pics_journal/core/internal/models"
+
+templ Event(event models.Event) {
+	<div class="flex w-full   flex-row ">
+		<a class="flex-7">{ event.Content }</a>
+		<div class="flex flex-1 flex-row gap-1 p-1">
+			<div class="flex-1 border-block">{ event.Category }</div>
+			<div class="flex-1 border-block">{ event.Emotion }</div>
+		</div>
+	</div>
+}

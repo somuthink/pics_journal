@@ -4,18 +4,93 @@ import "github.com/somuthink/pics_journal/core/internal/views"
 import "github.com/somuthink/pics_journal/core/internal/models"
 import "github.com/somuthink/pics_journal/core/internal/views/components"
 
-templ Home(inputs []models.Input) {
-	<div class="flex flex-col   gap-4" hx-ext="ws" ws-connect="/sock/seek">
-		<div class="flex flex-col">
-			for _, input := range inputs {
-				@components.Input(input)
+templ Home(inputs []models.Event) {
+	<div class="flex flex-col gap-4 items-center h-full w-full" hx-ext="ws" ws-connect="/sock/generate">
+		<div class="flex flex-col border-block py-2 px-4 ">
+			for _, event := range inputs {
+				<a>
+					{ event.Content }
+				</a>
 			}
 		</div>
-		<input ws-send class="border-block" type="text"/>
-		<div id="llm-result" hx-swap-oob="morphdom"></div>
+		<div class="flex flex-[2] w-2/3 h-full justify-center flex-col items-center gap-2">
+			<input
+				id="outputInp"
+				class="w-full  border-block px-4 py-2 text-lg"
+				name="prompt"
+				type="text"
+				ws-send
+				placeholder="Введите запрос..."
+			/>
+			<div class="flex ">
+				<button
+					id="startButton"
+					type="button"
+					class=" border-block  px-4 py-1   hover:bg-black/20 transition"
+				>
+					⦿  нажмите чтобы ввести голосом
+				</button>
+			</div>
+			@components.LlmResult("введите запрос голосом или вручную")
+		</div>
 	</div>
+	<script>
+  const startButton = document.getElementById("startButton");
+  const outputInp = document.getElementById("outputInp");
+
+
+  const LANG = "ru-RU";
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("browser doest support SpeechRecognition");
+  } else {
+    const recognition = new SpeechRecognition();
+    recognition.lang = LANG;
+    recognition.interimResults = false;
+
+    let isRecognizing = false;
+
+    recognition.onstart = () => {
+        isRecognizing = true;
+      startButton.textContent = "●  говорите...";
+    };
+
+    recognition.onend = () => {
+        isRecognizing = false;
+      startButton.textContent = "⦿  нажмите чтобы ввести голосом";
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      outputInp.value += ` ${transcript}`;
+      outputDiv.textContent = `Распознано: ${transcript}`;
+    };
+
+    recognition.onerror = (event) => {
+      outputDiv.textContent = `Ошибка: ${event.error}`;
+    };
+
+    startButton.addEventListener("click", () => {
+      if (isRecognizing) {
+        recognition.stop(); // Cancel recognition
+      } else {
+        recognition.start(); // Start recognition
+      }
+    });
+
+    function onLanguageChange() {
+      const newLang = document.getElementById("language")?.value;
+      if (newLang) {
+        recognition.lang = newLang;
+      }
+    }
+  }
+</script>
 }
 
-templ HomeIndex(inputs []models.Input) {
-	@views.Base(Home(inputs))
+templ HomeIndex(events []models.Event) {
+	@views.Base(
+		components.Navbar("home"),
+		Home(events))
 }

@@ -3,16 +3,67 @@ package me
 import "github.com/somuthink/pics_journal/core/internal/views"
 import "github.com/somuthink/pics_journal/core/internal/models"
 import "fmt"
+import "github.com/somuthink/pics_journal/core/internal/views/components"
+import "github.com/somuthink/pics_journal/core/internal/db/events"
 
-templ Me(user models.User) {
-	<div>
-		<div class="flex flex-row">
-			<a>{ user.Name }</a>
-			<img src={ fmt.Sprintf("/static/images/outputs/%s.png", user.PortraitName) }/>
+templ Me(user models.User, agenda map[string]map[string][]models.Event, stats map[string]map[string]events.Stat, today string) {
+	<div class="flex flex-row w-[75%] flex-row gap-20 ">
+		<div class="flex flex-col w-full items-end gap-5">
+			<a class="text-6xl">{ user.Name }</a>
+			for period, contents := range agenda {
+				<div class="bg-black text-white p-2">{ period }</div>
+				for day,events := range contents {
+					<div class="w-full flex flex-col gap-4">
+						<details
+							class="underline text-xl"
+							if today==day {
+								open="true"
+							}
+						>
+							<summary>{ day } </summary>
+							<div class="text-black/50 flex flex-row text-sm">
+								for category, categoryScore := range stats[period][day].Categories {
+									<a>{ category } - { fmt.Sprint(categoryScore) }</a>
+								}
+							</div>
+							<div class="text-black/50 flex flex-row text-sm ">
+								for emotion, emotionScore := range stats[period][day].Emotions {
+									<a>{ emotion } - { fmt.Sprint(emotionScore) }</a>
+								}
+							</div>
+							<div class="flex flex-col gap-1">
+								for _, event := range events {
+									@components.Event(event)
+								}
+							</div>
+						</details>
+					</div>
+				}
+			}
+		</div>
+		<div class="w-48">
+			if user.PortraitName == "" {
+				<label for="file-input" class="size-64 text-sm  flex items-center justify-center border-block gap-4 flex-col">
+					<a class="max-w-48">Загрузите основу вашего эмоционального портрета</a>
+					<a>(ваше фото)</a>
+				</label>
+				<input
+					hx-post="/api/upload"
+					hx-encoding="multipart/form-data"
+					hx-target="#input-content"
+					type="file"
+					class="hidden"
+					id="file-input"
+					name="file"
+					accept="image/*"
+				/>
+			} else {
+				<img src={ fmt.Sprintf("/static/images/outputs/%s.png", user.PortraitName) }/>
+			}
 		</div>
 	</div>
 }
 
-templ MeIndex(user models.User) {
-	@views.Base(Me(user))
+templ MeIndex(user models.User, agenda map[string]map[string][]models.Event, stats map[string]map[string]events.Stat, today string) {
+	@views.Base(components.Navbar("me"), Me(user, agenda, stats, today))
 }

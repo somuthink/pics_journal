@@ -1,0 +1,36 @@
+package components
+
+templ Navbar(currentPage string) {
+	<nav class="w-full flex justify-center  gap-25   ">
+		if currentPage == "home" {
+			<a
+				href="/"
+				class="hover:text-black/50 underline"
+			>
+				рефаил
+			</a>
+		} else {
+			<a
+				href="/"
+				class="hover:text-black/50 "
+			>
+				рефаил
+			</a>
+		}
+		if currentPage == "me" {
+			<a
+				href="/me"
+				class="hover:text-black/50 underline"
+			>
+				литерли я
+			</a>
+		} else {
+			<a
+				href="/me"
+				class="hover:text-black/50 "
+			>
+				литерли я
+			</a>
+		}
+	</nav>
+}

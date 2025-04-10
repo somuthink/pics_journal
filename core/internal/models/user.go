@@ -2,12 +2,8 @@ package models
 
 import "gorm.io/gorm"
 
-type Input struct {
-	ID uint `gorm:"primaryKey"`
-
+type Event struct {
 	Content string
-
-	Summary string
 
 	Emotion string
 
@@ -26,7 +22,7 @@ type User struct {
 
 	PortraitName string
 
-	Inputs []Input `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	Events []Event `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
 
 	gorm.Model
 }

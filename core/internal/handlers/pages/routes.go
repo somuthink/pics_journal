@@ -14,5 +14,5 @@ func (PageRoutes) SetupRoutes(app fiber.Router) {
 
 	app.Get("/", homePage)
 
-	app.Get("/me", homePage)
+	app.Get("/me", mePage)
 }

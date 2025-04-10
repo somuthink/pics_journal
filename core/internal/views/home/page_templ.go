@@ -10,8 +10,9 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/somuthink/pics_journal/core/internal/views"
 import "github.com/somuthink/pics_journal/core/internal/models"
+import "github.com/somuthink/pics_journal/core/internal/views/components"
 
-func Home(inputs []models.Input) templ.Component {
+func Home(inputs []models.Event) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -32,13 +33,38 @@ func Home(inputs []models.Input) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex flex-col   gap-4\" hx-ext=\"ws\" ws-connect=\"/sock/seek\"><div class=\"flex flex-col\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex flex-col gap-4 items-center h-full w-full\" hx-ext=\"ws\" ws-connect=\"/sock/generate\"><div class=\"flex flex-col border-block py-2 px-4 \">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		for _, input := range inputs {
+		for _, event := range inputs {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<a>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(event.Content)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/views/home/page.templ`, Line: 12, Col: 20}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</a>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><input ws-send class=\"border-block\" type=\"text\"><div id=\"llm-result\" hx-swap-oob=\"morphdom\"></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div><div class=\"flex flex-[2] w-2/3 h-full justify-center flex-col items-center gap-2\"><input id=\"outputInp\" class=\"w-full  border-block px-4 py-2 text-lg\" name=\"prompt\" type=\"text\" ws-send placeholder=\"Введите запрос...\"><div class=\"flex \"><button id=\"startButton\" type=\"button\" class=\" border-block  px-4 py-1   hover:bg-black/20 transition\">⦿  нажмите чтобы ввести голосом</button></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LlmResult("введите запрос голосом или вручную").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></div><script>\n  const startButton = document.getElementById(\"startButton\");\n  const outputInp = document.getElementById(\"outputInp\");\n\n\n  const LANG = \"ru-RU\";\n\n  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;\n  if (!SpeechRecognition) {\n    alert(\"browser doest support SpeechRecognition\");\n  } else {\n    const recognition = new SpeechRecognition();\n    recognition.lang = LANG;\n    recognition.interimResults = false;\n\n    let isRecognizing = false;\n\n    recognition.onstart = () => {\n        isRecognizing = true;\n      startButton.textContent = \"●  говорите...\";\n    };\n\n    recognition.onend = () => {\n        isRecognizing = false;\n      startButton.textContent = \"⦿  нажмите чтобы ввести голосом\";\n    };\n\n    recognition.onresult = (event) => {\n      const transcript = event.results[0][0].transcript;\n      outputInp.value += ` ${transcript}`;\n      outputDiv.textContent = `Распознано: ${transcript}`;\n    };\n\n    recognition.onerror = (event) => {\n      outputDiv.textContent = `Ошибка: ${event.error}`;\n    };\n\n    startButton.addEventListener(\"click\", () => {\n      if (isRecognizing) {\n        recognition.stop(); // Cancel recognition\n      } else {\n        recognition.start(); // Start recognition\n      }\n    });\n\n    function onLanguageChange() {\n      const newLang = document.getElementById(\"language\")?.value;\n      if (newLang) {\n        recognition.lang = newLang;\n      }\n    }\n  }\n</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -46,7 +72,7 @@ func Home(inputs []models.Input) templ.Component {
 	})
 }
 
-func HomeIndex(inputs []models.Input) templ.Component {
+func HomeIndex(events []models.Event) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -62,12 +88,14 @@ func HomeIndex(inputs []models.Input) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var2 == nil {
-			templ_7745c5c3_Var2 = templ.NopComponent
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = views.Base(Home(inputs)).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = views.Base(
+			components.Navbar("home"),
+			Home(events)).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
