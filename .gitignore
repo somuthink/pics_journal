@@ -1,1 +1,7 @@
 .env
+.venv
+mistral_model
+lora-mistral-adapter
+checkpoint-27
+checkpoint*
+mistral-model-inst

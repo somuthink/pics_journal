@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package module;
+
+option go_package = "github.com/somuthink/pics_journal/core/proto";
+
+service Communication {
+  rpc GetAReply (RequestToModule) returns (ModuleReply) {}
+}
+
+message RequestToModule {
+  string request = 1;
+}
+
+message ModuleReply {
+  string answer = 1;
+}
